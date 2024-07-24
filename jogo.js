@@ -8,11 +8,12 @@ const nomeInvalido = nome => nome == '';
 const indiceValido = indice => indice < 0 || indice >= jogos.length || isNaN(indice);
 
 const modelo = () => {
-    let jogo
+
+    let jogo = {};
 
     while (true) {
         jogo.nome = prompt('Qual é o nome do jogo? ');
-        if (jogoInvalido(jogo.nome)) {
+        if (nomeInvalido(jogo.nome)) {
             console.log('O nome não pode ser vazio.');
         } else {
             break;
@@ -48,7 +49,7 @@ const modelo = () => {
 
     while (true) {
         jogo.estudio = prompt('Qual é o estúdio do jogo? ');
-        if (jogoInvalido(jogo.estudio == '')) {
+        if (nomeInvalido(jogo.estudio)) {
             console.log('O estúdio não pode ser vazio.');
         } else {
             break;
@@ -57,13 +58,14 @@ const modelo = () => {
 
     while (true) {
         if (jogos.length == 0) {
-            jogos.sequencia = undefined;
+            jogo.sequencia = -1;
             break;
         }
 
-        jogo.sequencia = lerIndice(prompt('Qual é a sequencia do jogo? '));
+        jogo.sequencia = lerIndice(prompt('Qual é a sequencia do jogo? Caso não exista, digite "nao". '));
 
-        if (indiceValido(jogo.sequencia)) {
+
+        if (indice != 0 && indiceValido(jogo.sequencia)) {
             console.log('Insira uma sequência válida.');
         } else {
             break;
@@ -71,6 +73,7 @@ const modelo = () => {
     }
 
     console.log('Jogo cadastrado com sucesso!');
+
     return jogo;
 };
 
@@ -79,13 +82,19 @@ const criar = () => {
     const jogo = modelo();
 
     jogos.push(jogo);
-
-    console.log('Jogo cadastrado com sucesso.');
 };
 
 const lista = () => {
     jogos.forEach((jogo, i) => {
-        console.log(`${i + 1}. ${jogo.nome}, ${jogo.anoLancamento}, ${jogo.duracao}, ${jogo.preco}, ${jogo.estudio}, ${jogo.sequencia}`);
+
+        let sequencia
+        console.log(jogo.sequencia)
+        if (jogo.sequencia != -1) {
+            sequencia = jogos[jogo.sequencia].nome;
+        } else {
+            sequencia = 'Não possui sequência.';
+        }
+        console.log(`${i + 1}. Nome: ${jogo.nome}, Ano de lançamento: ${jogo.anoLancamento}, Duração do jogo: ${jogo.duracao}, Preço do jogo: ${jogo.preco}, Estúdio: ${jogo.estudio}, Sequência: ${jogo.sequencia}`);
     })
 };
 
@@ -97,7 +106,7 @@ const atualizar = () => {
             break;
         }
 
-        const indice = lerIndice(prompt('Qual índice do jogo que precisa atualizar?'));
+        const indice = lerIndice(prompt('Qual índice do jogo que precisa atualizar? '));
 
         if (indiceValido(indice)) {
             console.log('Índice inválido.');
@@ -114,12 +123,12 @@ const remove = () => {
     lista();
 
     while (true) {
-        const indice = lerIndice('Qual índice você deseja remover?');
+        const indice = lerIndice('Qual índice você deseja remover? ');
 
         if (indiceValido(indice)) {
             console.log('Índice inválido.');
         } else {
-            jogo.splice(indice, 1);
+            jogos.splice(indice--, 1);
             break;
         }
     }

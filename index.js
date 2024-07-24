@@ -9,36 +9,36 @@ while (true) {
     4. Remover.
     5. Finalizar.`);
 
-    const opcao = prompt('Escolha uma opção: ')
+    const opcao = Number(prompt('Escolha uma opção: '));
 
     switch (opcao) {
         case 1:
 
-        funcao.criar();
+            funcao.criar();
 
             break;
 
         case 2:
 
-        funcao.lista();
+            funcao.lista();
 
             break;
 
         case 3:
 
-        funcao.atualizar();
+            funcao.atualizar();
 
             break;
 
         case 4:
 
-        funcao.remove();
+            funcao.remove();
 
             break;
 
         case 5:
 
-        process.exit();
+            process.exit();
 
             break;
 
@@ -49,4 +49,5 @@ while (true) {
 
             break;
     }
+
 };
