@@ -111,6 +111,8 @@ const atualizar = () => {
 
 const remove = () => {
 
+    lista();
+
     while (true) {
         const indice = lerIndice('Qual índice você deseja remover?');
 
