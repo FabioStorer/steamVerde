@@ -1,12 +1,18 @@
 const prompt = require('prompt-sync')();
 const jogos = [];
 
+const lerIndice = mensagem => parseInt(prompt(mensagem));
+
+const nomeInvalido = nome => nome == '';
+
+const indiceValido = indice => indice < 0 || indice >= jogos.length || isNaN(indice);
+
 const modelo = () => {
     let jogo
 
     while (true) {
         jogo.nome = prompt('Qual é o nome do jogo? ');
-        if (jogo.nome == '') {
+        if (jogoInvalido(jogo.nome)) {
             console.log('O nome não pode ser vazio.');
         } else {
             break;
@@ -14,7 +20,7 @@ const modelo = () => {
     }
 
     while (true) {
-        jogo.anoLancamento = Number(prompt('Qual é o ano de lancamento do jogo? '));
+        jogo.anoLancamento = parseInt(prompt('Qual é o ano de lancamento do jogo? '));
         if (jogo.anoLancamento < 1958 || jogo.anoLancamento > 2024 || isNaN(jogo.anoLancamento)) {
             console.log('Ano inválido.');
         } else {
@@ -42,7 +48,7 @@ const modelo = () => {
 
     while (true) {
         jogo.estudio = prompt('Qual é o estúdio do jogo? ');
-        if (jogo.estudio == '') {
+        if (jogoInvalido(jogo.estudio == '')) {
             console.log('O estúdio não pode ser vazio.');
         } else {
             break;
@@ -54,19 +60,23 @@ const modelo = () => {
             jogos.sequencia = undefined;
             break;
         }
-        jogo.sequencia = parseInt(prompt('Qual é a sequencia do jogo? '));
-        if (jogo.sequencia < 0 || jogo.sequencia >= jogos.length) {
-            console.log('A sequencia não pode ser vazio.');
+
+        jogo.sequencia = lerIndice(prompt('Qual é a sequencia do jogo? '));
+
+        if (indiceValido(jogo.sequencia)) {
+            console.log('Insira uma sequência válida.');
         } else {
             break;
         }
     }
+
+    console.log('Jogo cadastrado com sucesso!');
     return jogo;
 };
 
 const criar = () => {
 
-    let jogo = modelo();
+    const jogo = modelo();
 
     jogos.push(jogo);
 
@@ -80,13 +90,16 @@ const lista = () => {
 };
 
 const atualizar = () => {
+
     while (true) {
         if (jogos.length == 0) {
             console.log('Nenhum jogo cadastrado.');
-            return;
+            break;
         }
-        let indice = parseInt(prompt('Qual índice do jogo que precisa atualizar?'));
-        if (indice < 0 || indice >= jogos.length || isNaN(indice)) {
+
+        const indice = lerIndice(prompt('Qual índice do jogo que precisa atualizar?'));
+
+        if (indiceValido(indice)) {
             console.log('Índice inválido.');
         } else {
             const jogo = modelo();
@@ -94,4 +107,26 @@ const atualizar = () => {
             break;
         }
     }
+};
+
+const remove = () => {
+
+    while (true) {
+        const indice = lerIndice('Qual índice você deseja remover?');
+
+        if (indiceValido(indice)) {
+            console.log('Índice inválido.');
+        } else {
+            jogo.splice(indice, 1);
+            break;
+        }
+    }
+
+};
+
+module.exports = {
+    criar,
+    lista,
+    atualizar,
+    remove
 };
